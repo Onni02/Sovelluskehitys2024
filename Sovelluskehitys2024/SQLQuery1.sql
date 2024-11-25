@@ -1,4 +1,56 @@
-﻿CREATE TABLE tuotteet (id INTEGER IDENTITY(1,1) PRIMARY KEY, nimi VARCHAR(50), hinta INTEGER);
+﻿CREATE TABLE autot (
+    auto_id INTEGER IDENTITY(1,1) PRIMARY KEY,
+    merkki VARCHAR(50),
+    malli VARCHAR(50),
+    rekisteri_nro VARCHAR(50) UNIQUE
+);
+
+CREATE TABLE huollot (
+    huolto_id INTEGER IDENTITY(1,1) PRIMARY KEY,
+    rekisteri_nro VARCHAR(50) REFERENCES autot(rekisteri_nro) ON DELETE CASCADE,
+    huoltotyyppi VARCHAR(50),
+    kilometrit INTEGER,
+    paivamaara DATE
+);
+
+
+CREATE TABLE autonomistajuus (
+    omistajuus_id INTEGER IDENTITY(1,1) PRIMARY KEY,
+    auto_id INTEGER REFERENCES autot ON DELETE CASCADE,
+    kayttaja_nimi VARCHAR(50),
+    aloitus_paivamaara DATE,
+    UNIQUE (auto_id)
+);
+
+CREATE TABLE huoltokuvat (
+    kuva_id INTEGER IDENTITY(1,1) PRIMARY KEY,
+    huolto_id INTEGER REFERENCES huollot ON DELETE CASCADE,
+    kuva VARBINARY(MAX),
+    kuva_nimi VARCHAR(100)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE tuotteet (id INTEGER IDENTITY(1,1) PRIMARY KEY, nimi VARCHAR(50), hinta INTEGER);
 
 CREATE TABLE asiakkaat (id INTEGER IDENTITY(1,1) PRIMARY KEY, nimi VARCHAR(50), osoite VARCHAR(150), puhelin VARCHAR(50));
 
