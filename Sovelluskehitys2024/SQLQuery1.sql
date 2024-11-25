@@ -10,7 +10,7 @@ CREATE TABLE huollot (
     rekisteri_nro VARCHAR(50) REFERENCES autot(rekisteri_nro) ON DELETE CASCADE,
     huoltotyyppi VARCHAR(50),
     kilometrit INTEGER,
-    paivamaara DATE
+    paivamaara VARCHAR(50)
 );
 
 
@@ -29,8 +29,9 @@ CREATE TABLE huoltokuvat (
     kuva_nimi VARCHAR(100)
 );
 
+select * from huollot
 
-
+Drop table huollot
 
 
 
