@@ -52,7 +52,7 @@ namespace Sovelluskehitys2024
             }
         }
 
-
+        
         
 private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 {
