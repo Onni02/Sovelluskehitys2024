@@ -1,8 +1,10 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -13,6 +15,7 @@ using System.Windows.Shapes;
 using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using Microsoft.Data.SqlClient;
+using Microsoft.Win32;
 
 namespace Sovelluskehitys2024
 {
@@ -21,7 +24,7 @@ namespace Sovelluskehitys2024
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        string polku = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\onnis\\OneDrive\\Tiedostot\\testitietokanta.mdf;Integrated Security=True;Connect Timeout=30";
+        string polku = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\onnis\\OneDrive\\Tiedostot\\testitietokanta.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=True";
         public MainWindow()
         {
             InitializeComponent();
@@ -36,6 +39,11 @@ namespace Sovelluskehitys2024
 
                 PaivitaDataGrid("SELECT * FROM huollot", "huollot", huoltolista);
                 PaivitaComboBox(huoltolista_cb);
+
+                PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
+                PaivitaComboBoxKuva(huoltokuvalista_cb);
+
+                PaivitaComboBoxKaikkihuollot(autokohtainenlista_cb);
 
 
                 /*
@@ -84,6 +92,8 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaDataGrid("SELECT * FROM autot", "autot", autolista);
             PaivitaComboBox(autolista_cb);
             PaivitaComboBox(huoltolista_cb);
+            PaivitaComboBoxKuva(huoltokuvalista_cb);
+            PaivitaComboBox(autokohtainenlista_cb);
 
         }
 
@@ -108,12 +118,14 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
+
         private void autonpoisto(object sender, RoutedEventArgs e)
             {
             SqlConnection yhteys = new SqlConnection(polku);
             yhteys.Open();
 
             string id = autolista_cb.SelectedValue.ToString();
+
             string kysely = "DELETE FROM autot WHERE rekisteri_nro='" + id + "';";
             SqlCommand komento = new SqlCommand(kysely, yhteys);
             komento.ExecuteNonQuery();
@@ -122,7 +134,9 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaDataGrid("SELECT * FROM autot", "autot", autolista);
             PaivitaComboBox(autolista_cb);
             PaivitaDataGrid("SELECT * FROM huollot", "huollot", huoltolista);
-
+            PaivitaComboBoxKuva(huoltokuvalista_cb);
+            PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
+            PaivitaComboBox(autokohtainenlista_cb);
         }
 
         
@@ -142,12 +156,163 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
             PaivitaDataGrid("SELECT * FROM huollot", "huollot", huoltolista);
             PaivitaComboBox(huoltolista_cb);
-
+            PaivitaComboBoxKuva(huoltokuvalista_cb);
+            PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
         }
 
+        private void PaivitaComboBoxKuva(ComboBox huoltokuvalista_cb)
+        {
+            SqlConnection yhteys = new SqlConnection(polku);
+            yhteys.Open();
+
+            // Hae huolto_id huollot-taulusta
+            string kysely = "SELECT huolto_id FROM huollot";
+            SqlCommand komento = new SqlCommand(kysely, yhteys);
+            SqlDataReader lukija = komento.ExecuteReader();
+
+            huoltokuvalista_cb.Items.Clear(); // Tyhjennetään ComboBox ennen päivitystä
+
+            while (lukija.Read())
+            {
+                huoltokuvalista_cb.Items.Add(lukija["huolto_id"].ToString()); // Lisää huolto_id
+            }
+
+            lukija.Close();
+            yhteys.Close();
+        }
+
+
+   
+
         
+        private void TuoKuvaButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Luo OpenFileDialog-ikkuna
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "JPEG Files (*.jpg;*.jpeg)|*.jpg;*.jpeg|All Files (*.*)|*.*",
+                Title = "Valitse JPEG-kuva"
+            };
+
+            // Näytä dialogi ja käsittele valinta
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Aseta valittu tiedostopolku TextBoxiin
+                kuvaPolku.Text = openFileDialog.FileName;
+            }
+        }
 
 
+        
+        private void lisaahuoltokuva(object sender, RoutedEventArgs e)
+        {
+            SqlConnection yhteys = new SqlConnection(polku);
+            yhteys.Open();
+
+            string id = huoltokuvalista_cb.SelectedValue.ToString();
+
+            string kysely = "INSERT INTO huoltokuvat (huolto_id, kuva_nimi, kuva) VALUES ('" + id + "','" + kuvanimi.Text + "','"+ kuvaPolku.Text + "');";
+            SqlCommand komento = new SqlCommand(kysely, yhteys);
+            komento.ExecuteNonQuery();
+            yhteys.Close();
+
+            PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
+            PaivitaComboBox(huoltokuvalista_cb);
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            // Open the image using the default viewer for the image file type
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = e.Uri.AbsoluteUri,  // the image path
+                UseShellExecute = true  // Ensures that the image is opened with the default associated application
+            });
+        }
+
+
+
+
+
+
+        private void PaivitaComboBoxKaikkihuollot(ComboBox autokohtainenlista_cb)
+        {
+            SqlConnection yhteys = new SqlConnection(polku);
+            yhteys.Open();
+
+            string kysely = "SELECT rekisteri_nro FROM autot";
+            SqlCommand komento = new SqlCommand(kysely, yhteys);
+            SqlDataReader lukija = komento.ExecuteReader();
+
+            autokohtainenlista_cb.Items.Clear(); // Tyhjennetään ComboBox ennen päivittämistä
+
+            while (lukija.Read())
+            {
+                autokohtainenlista_cb.Items.Add(lukija["rekisteri_nro"].ToString());
+            }
+
+            lukija.Close();
+            yhteys.Close();
+        }
+
+
+        /*
+        private void haekaikkihuoltotiedot(object sender, RoutedEventArgs e)
+        {
+            SqlConnection yhteys = new SqlConnection(polku);
+            yhteys.Open();
+
+            string id = autokohtainenlista_cb.SelectedValue.ToString();
+
+            string kysely = "SELECT autot.rekisteri_nro, huollot.huoltotyyppi, huollot.kilometrit, huollot.paivamaara, huoltokuvat.kuva_nimi FROM huollot JOIN huoltokuvat ON huollot.huolto_id = huoltokuvat.huolto_id JOIN autot ON huollot.rekisteri_nro = autot.rekisteri_nro WHERE autot.rekisteri_nro = '"+id+"';";
+            
+            SqlCommand komento = new SqlCommand(kysely, yhteys);
+            komento.ExecuteNonQuery();
+            yhteys.Close();
+
+            PaivitaDataGrid("SELECT * FROM auton_huoltohistoria", "auton_huoltohistoria", autokohtainen_lista);
+            PaivitaComboBox(autokohtainenlista_cb);
+        }*/
+
+        private void haekaikkihuoltotiedot(object sender, RoutedEventArgs e)
+        {
+            SqlConnection yhteys = new SqlConnection(polku);
+            yhteys.Open();
+
+            // Haetaan valittu auton rekisterinumero
+            string id = autokohtainenlista_cb.SelectedValue.ToString();
+
+            // SQL SELECT kysely
+            string kysely = @"
+        SELECT 
+            autot.rekisteri_nro, 
+            huollot.huoltotyyppi, 
+            huollot.kilometrit, 
+            huollot.paivamaara, 
+            huoltokuvat.kuva_nimi 
+        FROM huollot 
+        JOIN huoltokuvat ON huollot.huolto_id = huoltokuvat.huolto_id 
+        JOIN autot ON huollot.rekisteri_nro = autot.rekisteri_nro 
+        WHERE autot.rekisteri_nro = @rekisteri_nro";
+
+            // Luo SqlCommand ja lisää parametrin
+            SqlCommand komento = new SqlCommand(kysely, yhteys);
+            komento.Parameters.AddWithValue("@rekisteri_nro", id);
+
+            // Ajetaan kysely ja täytetään DataTable
+            SqlDataAdapter adapter = new SqlDataAdapter(komento);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+
+            // Asetetaan DataTable DataGridin DataSourceksi
+            autokohtainen_lista.ItemsSource = dt.DefaultView;
+
+            // Suljetaan yhteys tietokantaan
+            yhteys.Close();
+
+            // Päivitä ComboBox (jos tarpeen)
+            PaivitaComboBox(autokohtainenlista_cb);
+        }
 
 
 
@@ -170,6 +335,10 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             }
 
         
+
+
+
+
 
 
 

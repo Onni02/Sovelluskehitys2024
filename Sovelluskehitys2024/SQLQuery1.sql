@@ -13,25 +13,41 @@ CREATE TABLE huollot (
     paivamaara VARCHAR(50)
 );
 
-
-CREATE TABLE autonomistajuus (
-    omistajuus_id INTEGER IDENTITY(1,1) PRIMARY KEY,
-    auto_id INTEGER REFERENCES autot ON DELETE CASCADE,
-    kayttaja_nimi VARCHAR(50),
-    aloitus_paivamaara DATE,
-    UNIQUE (auto_id)
-);
-
 CREATE TABLE huoltokuvat (
     kuva_id INTEGER IDENTITY(1,1) PRIMARY KEY,
-    huolto_id INTEGER REFERENCES huollot ON DELETE CASCADE,
-    kuva VARBINARY(MAX),
+    huolto_id INTEGER REFERENCES huollot(huolto_id) ON DELETE CASCADE,
+    kuva VARCHAR(400),
     kuva_nimi VARCHAR(100)
 );
 
+CREATE TABLE auton_huoltohistoria (
+    rekisteri_nro VARCHAR(50) REFERENCES autot(rekisteri_nro),
+    huoltotyyppi VARCHAR(50),
+    kilometrit INTEGER,
+    paivamaara VARCHAR(50),
+    kuva_nimi VARCHAR(100)
+);
+
+
+SELECT 
+    autot.rekisteri_nro,  -- Lisää rekisterinumero tuloksiin
+    huollot.huoltotyyppi, 
+    huollot.kilometrit, 
+    huollot.paivamaara, 
+    huoltokuvat.kuva_nimi
+FROM huollot
+JOIN huoltokuvat ON huollot.huolto_id = huoltokuvat.huolto_id
+JOIN autot ON huollot.rekisteri_nro = autot.rekisteri_nro
+WHERE autot.rekisteri_nro = 'SNN-990';  -- Käytä haluamaasi rekisterinumeroa
+
+
+
+/*
+VARBINARY(MAX)*/
+
 select * from huollot
 
-Drop table huollot
+Drop table auton_huoltohistoria
 
 
 

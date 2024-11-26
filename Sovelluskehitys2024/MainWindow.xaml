@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Sovelluskehitys2024"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Tilaukset" MinHeight="500" Width="800">
+        Title="Tilaukset" MinHeight="550" Width="1200">
     <Grid>
         <Menu DockPanel.Dock ="Top">
             <MenuItem Header="_Tiedosto">
@@ -28,70 +28,118 @@
                 </Grid>
             </TabItem>
             .-->
-            
+
             <TabItem Header="Lisää auto">
                 <Grid>
-                    
+
                     <Label Content="Merkki" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="86"/>
-                    <TextBox x:Name="autonmerkki" HorizontalAlignment="Left" Margin="200,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="26" />
+                    <TextBox x:Name="autonmerkki" HorizontalAlignment="Left" Margin="200,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" Height="22" />
 
                     <Label Content="Malli" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.581,0.368"/>
-                    <TextBox x:Name="autonmalli" HorizontalAlignment="Left" Margin="200,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="26"/>
+                    <TextBox x:Name="autonmalli" HorizontalAlignment="Left" Margin="200,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" Height="22"/>
 
                     <Label Content="Rekisterinumero" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.581,0.368"/>
-                    <TextBox x:Name="autonrekno" HorizontalAlignment="Left" Margin="200,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="26"/>
+                    <TextBox x:Name="autonrekno" HorizontalAlignment="Left" Margin="200,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" Height="22"/>
 
-                    <Button Content="Lisää auto" HorizontalAlignment="Left" Margin="200,197,0,0" VerticalAlignment="Top" Width="144" Height="36" Click="autonlisäys"/>
+                    <Button Content="Lisää auto" HorizontalAlignment="Left" Margin="200,197,0,0" VerticalAlignment="Top" Width="152" Height="22" Click="autonlisäys"/>
 
                     <DataGrid x:Name="autolista" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="370,27,7,121" RenderTransformOrigin="0.5,0.5"/>
 
 
-                    <ComboBox x:Name="autolista_cb" HorizontalAlignment="Left" Margin="200,270,0,0" VerticalAlignment="Top" Width="144"/>
-                    <Button Content="Poista auto" HorizontalAlignment="Left" Margin="200,310,0,0" VerticalAlignment="Top" Height="36" Width="144" Click="autonpoisto"/>
-                    
+                    <ComboBox x:Name="autolista_cb" HorizontalAlignment="Left" Margin="200,270,0,0" VerticalAlignment="Top" Width="152" Height="22"/>
+                    <Button Content="Poista auto" HorizontalAlignment="Left" Margin="200,310,0,0" VerticalAlignment="Top" Width="152" Height="22" Click="autonpoisto"/>
+
                 </Grid>
             </TabItem>
-            
-            
-            
+
+
+
             <TabItem Header="Huolto">
                 <Grid>
-                    
+
                     <Label Content="Huoltotyyppi" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="huoltotyyppi" HorizontalAlignment="Left" Margin="200,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22"/>
-                    
+
                     <Label Content="Kilometrit" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="kilometrit" HorizontalAlignment="Left" Margin="200,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22"/>
 
                     <Label Content="Päivämäärä" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="paivamaara" HorizontalAlignment="Left" Margin="200,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22"/>
 
-                    <ComboBox x:Name="huoltolista_cb" HorizontalAlignment="Left" Margin="200,200,0,0" VerticalAlignment="Top" Width="144"/>
-                    
-                    <Button Content="Lisää huolto" HorizontalAlignment="Left" Margin="200,250,0,0" VerticalAlignment="Top" Height="30" Width="120" Click="huollonlisäys"/>
+                    <Label Content="Valitse rekisterinumero" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="huoltolista_cb" HorizontalAlignment="Left" Margin="200,200,0,0" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                    <Button Content="Lisää huolto" HorizontalAlignment="Left" Margin="200,250,0,0" VerticalAlignment="Top" Height="22" Width="152" Click="huollonlisäys"/>
 
                     <DataGrid x:Name="huoltolista" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="370,27,7,121"/>
-                    
+
                 </Grid>
             </TabItem>
-
-            <TabItem Header="Autonomistaja">
-                <Grid>
-                    <Label Content="Asiakas" HorizontalAlignment="Left" Margin="472,32,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Tuote" HorizontalAlignment="Left" Margin="472,92,0,0" VerticalAlignment="Top"/>
-                    <Button Content="Lisää tilaus" HorizontalAlignment="Left" Margin="513,147,0,0" VerticalAlignment="Top" Height="28" Width="189" Click="Button_Click_4"/>
-                    <ComboBox x:Name="asiakaslista_cb" HorizontalAlignment="Left" Margin="582,34,0,0" VerticalAlignment="Top" Width="120"/>
-                    <ComboBox x:Name="tuotelista_cb_2" HorizontalAlignment="Left" Margin="582,94,0,0" VerticalAlignment="Top" Width="120"/>
-                </Grid>
-            </TabItem>
-
 
             <TabItem Header="Huoltokuvat">
                 <Grid>
-                    <DataGrid x:Name="toimitetutlista" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="50,28,385,120"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="46*"/>
+                        <ColumnDefinition Width="311*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Kuvan nimi" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="kuvanimi" HorizontalAlignment="Left" Margin="28,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22" Grid.Column="2"/>
+
+                    <Label Content="Tuo kuva" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <Button Content="Selaa" HorizontalAlignment="Left" Margin="28,100,0,0" VerticalAlignment="Top" Width="152" Height="22" Click="TuoKuvaButton_Click" Grid.Column="2"/>
+                    <Label Content="Kuvapolku" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="kuvaPolku" HorizontalAlignment="Left" Margin="28,150,0,0" VerticalAlignment="Top" Width="152" Height="22" IsReadOnly="True" Grid.Column="2"/>
+
+                    <Label Content="Valitse huolto id" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <ComboBox x:Name="huoltokuvalista_cb" HorizontalAlignment="Left" Margin="28,200,0,0" VerticalAlignment="Top" Width="152" Height="22" Grid.Column="2"/>
+
+                    <Button Content="Lisää huoltokuitti" HorizontalAlignment="Left" Margin="28,250,0,0" VerticalAlignment="Top" Width="152" Height="22" Click="lisaahuoltokuva" Grid.Column="2"/>
+
+
+
+                    <DataGrid x:Name="huoltokuvalista" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="198,27,7,121" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
+                        <DataGrid.Columns>
+
+                            <DataGridTemplateColumn Header="Avaa Kuva">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                <Hyperlink NavigateUri="{Binding kuva}" RequestNavigate="Hyperlink_RequestNavigate">
+                                    <TextBlock Text="{Binding kuva_nimi}" />
+                                </Hyperlink>
+                            </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Autokohtaiset huollot">
+                <Grid>
+
+                    <Label Content="Valitse auto, jonka huoltohistoriaa haluat katsella" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top" Width="287"/>
+                    <ComboBox x:Name="autokohtainenlista_cb" HorizontalAlignment="Left" Margin="118,70,0,0" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                    <Button Content="Hae tiedot" HorizontalAlignment="Left" Margin="120,110,0,0" VerticalAlignment="Top" Width="152" Height="22" Click="haekaikkihuoltotiedot" Grid.Column="1"/>
+
+                    <DataGrid x:Name="autokohtainen_lista" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="370,27,7,121"/>
+                        
                 </Grid>
             </TabItem>
         </TabControl>
+
+
+
+
+
         <StatusBar VerticalAlignment="Bottom">
             <TextBlock x:Name="tilaviesti" Text="Valmis"/>
         </StatusBar>
