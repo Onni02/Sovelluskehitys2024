@@ -24,7 +24,7 @@ namespace Sovelluskehitys2024
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        string polku = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\onnis\\OneDrive\\Tiedostot\\testitietokanta.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=True";
+        string polku = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\k2101834\\Documents\\testitietokanta.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=True";
         public MainWindow()
         {
             InitializeComponent();
@@ -44,6 +44,10 @@ namespace Sovelluskehitys2024
                 PaivitaComboBoxKuva(huoltokuvalista_cb);
 
                 PaivitaComboBoxKaikkihuollot(autokohtainenlista_cb);
+
+                PaivitaComboBox(omistajalista_cb);
+
+                PaivitaComboBox(omistajalistahaku_cb);
 
 
                 /*
@@ -94,6 +98,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaComboBox(huoltolista_cb);
             PaivitaComboBoxKuva(huoltokuvalista_cb);
             PaivitaComboBox(autokohtainenlista_cb);
+            PaivitaComboBox(omistajalista_cb);
 
         }
 
@@ -137,6 +142,8 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaComboBoxKuva(huoltokuvalista_cb);
             PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
             PaivitaComboBox(autokohtainenlista_cb);
+            PaivitaComboBox(omistajalista_cb);
+            PaivitaDataGrid("SELECT * FROM omistaja", "omistaja", omistajalista);
         }
 
         
@@ -234,7 +241,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
 
 
-
+        
         private void PaivitaComboBoxKaikkihuollot(ComboBox autokohtainenlista_cb)
         {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -316,6 +323,41 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
 
 
+        private void omistajanlisäys(object sender, RoutedEventArgs e)
+        {
+            SqlConnection yhteys = new SqlConnection(polku);
+            yhteys.Open();
+
+            string id = omistajalista_cb.SelectedValue.ToString();
+
+            string kysely = "INSERT INTO omistaja (rekisteri_nro, nimi, puhelinnumero, osoite) VALUES ('" + id + "','" + Nimi.Text + "','" + Puh_numero.Text + "','" + Osoite.Text + "');";
+            SqlCommand komento = new SqlCommand(kysely, yhteys);
+            komento.ExecuteNonQuery();
+            yhteys.Close();
+
+            PaivitaDataGrid("SELECT * FROM omistaja", "omistaja", omistajalista);
+            PaivitaComboBox(omistajalista_cb);
+            PaivitaComboBox(omistajalistahaku_cb);
+        }
+
+
+        
+        private void omistajanhaku(object sender, RoutedEventArgs e)
+        {
+            SqlConnection yhteys = new SqlConnection(polku);
+            yhteys.Open();
+
+            string id = omistajalistahaku_cb.SelectedValue.ToString();
+
+            /*string kysely = "INSERT INTO omistaja (rekisteri_nro, nimi, puhelinnumero, osoite) VALUES ('" + id + "','" + Nimi.Text + "','" + Puh_numero.Text + "','" + Osoite.Text + "');";
+            SqlCommand komento = new SqlCommand(kysely, yhteys);
+            komento.ExecuteNonQuery();
+            yhteys.Close();*/
+
+            PaivitaDataGrid("SELECT nimi, puhelinnumero, osoite from omistaja where rekisteri_nro='"+id+"' ", "omistaja", omistajalista);
+            
+        }
+
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
             {
@@ -334,7 +376,11 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
             }
 
-        
+       
+
+
+
+
 
 
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Sovelluskehitys2024"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Tilaukset" MinHeight="550" Width="1200">
+        Title="Tilaukset" MinHeight="550" MinWidth="1200">
     <Grid>
         <Menu DockPanel.Dock ="Top">
             <MenuItem Header="_Tiedosto">
@@ -134,8 +134,55 @@
                         
                 </Grid>
             </TabItem>
+
+            <TabItem Header="Omistaja">
+                <Grid>
+
+                    <Label Content="Omistaja" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="Nimi" HorizontalAlignment="Left" Margin="200,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                    <Label Content="Puhelinnumero" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="Puh_numero" HorizontalAlignment="Left" Margin="200,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                    <Label Content="Osoite" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="Osoite" HorizontalAlignment="Left" Margin="200,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                    <Label Content="Valitse rekisterinumero" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="omistajalista_cb" HorizontalAlignment="Left" Margin="200,200,0,0" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                    <Button Content="Lisää omistaja" HorizontalAlignment="Left" Margin="200,250,0,0" VerticalAlignment="Top" Height="22" Width="152" Click="omistajanlisäys"/>
+
+
+                    <Label Content="Hae omistajan tiedot" HorizontalAlignment="Left" Margin="50,300,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="omistajalistahaku_cb" HorizontalAlignment="Left" Margin="200,300,0,0" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                    <Button Content="Hae tiedot" HorizontalAlignment="Left" Margin="200,350,0,0" VerticalAlignment="Top" Height="22" Width="152" Click="omistajanhaku"/>
+
+                    <DataGrid x:Name="omistajalista" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="370,27,7,121"/>
+
+
+                    <!-- <Label Content="Kilometrit" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="kilometrit" HorizontalAlignment="Left" Margin="200,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                <Label Content="Päivämäärä" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="paivamaara" HorizontalAlignment="Left" Margin="200,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                <Label Content="Valitse rekisterinumero" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="huoltolista_cb" HorizontalAlignment="Left" Margin="200,200,0,0" VerticalAlignment="Top" Width="152" Height="22"/>
+
+                <Button Content="Lisää huolto" HorizontalAlignment="Left" Margin="200,250,0,0" VerticalAlignment="Top" Height="22" Width="152" Click="huollonlisäys"/>
+
+                <DataGrid x:Name="huoltolista" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="370,27,7,121"/>"-->
+
+                </Grid>
+            </TabItem>
+
+
+
+
         </TabControl>
 
+            
 
 
 

@@ -20,17 +20,28 @@ CREATE TABLE huoltokuvat (
     kuva_nimi VARCHAR(100)
 );
 
+
+
+CREATE TABLE omistaja (
+    nimi VARCHAR(80),
+    puhelinnumero VARCHAR(25),
+    osoite VARCHAR(200),
+    rekisteri_nro VARCHAR(50) REFERENCES autot(rekisteri_nro) ON DELETE CASCADE
+);
+
+
+/*
 CREATE TABLE auton_huoltohistoria (
     rekisteri_nro VARCHAR(50) REFERENCES autot(rekisteri_nro),
     huoltotyyppi VARCHAR(50),
     kilometrit INTEGER,
     paivamaara VARCHAR(50),
     kuva_nimi VARCHAR(100)
-);
+);*/
 
 
 SELECT 
-    autot.rekisteri_nro,  -- Lisää rekisterinumero tuloksiin
+    autot.rekisteri_nro,  
     huollot.huoltotyyppi, 
     huollot.kilometrit, 
     huollot.paivamaara, 
@@ -38,7 +49,7 @@ SELECT
 FROM huollot
 JOIN huoltokuvat ON huollot.huolto_id = huoltokuvat.huolto_id
 JOIN autot ON huollot.rekisteri_nro = autot.rekisteri_nro
-WHERE autot.rekisteri_nro = 'SNN-990';  -- Käytä haluamaasi rekisterinumeroa
+WHERE autot.rekisteri_nro = 'SNN-990';  
 
 
 
@@ -49,10 +60,11 @@ select * from huollot
 
 Drop table auton_huoltohistoria
 
+Drop table asiakkaat
 
+drop table tuotteet
 
-
-
+drop table tilaukset
 
 
 
