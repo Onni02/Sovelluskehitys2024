@@ -29,6 +29,8 @@ CREATE TABLE omistaja (
     rekisteri_nro VARCHAR(50) REFERENCES autot(rekisteri_nro) ON DELETE CASCADE
 );
 
+select huolto_id from huollot where rekisteri_nro='SNN-990' and paivamaara='2.12.2024'
+
 
 /*
 CREATE TABLE auton_huoltohistoria (
@@ -54,7 +56,7 @@ WHERE autot.rekisteri_nro = 'SNN-990';
 
 
 /*
-VARBINARY(MAX)*/
+VARBINARY(MAX)
 
 select * from huollot
 
@@ -102,3 +104,4 @@ SELECT ti.id as id, a.nimi as asiakas, tu.nimi as tuote FROM tilaukset ti, asiak
 DELETE FROM tuotteet WHERE nimi="kinkku";
 
 DROP TABLE tilaukset;
+*/

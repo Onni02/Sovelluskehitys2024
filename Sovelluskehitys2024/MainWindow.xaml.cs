@@ -100,6 +100,10 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaComboBox(autokohtainenlista_cb);
             PaivitaComboBox(omistajalista_cb);
 
+            autonmerkki.Text = "";
+            autonmalli.Text = "";
+            autonrekno.Text = "";
+
         }
 
         private void PaivitaComboBox(ComboBox autolista_cb)
@@ -165,6 +169,10 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaComboBox(huoltolista_cb);
             PaivitaComboBoxKuva(huoltokuvalista_cb);
             PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
+
+            huoltotyyppi.Text = "";
+            kilometrit.Text = "";
+            paivamaara.Text = "";
         }
 
         private void PaivitaComboBoxKuva(ComboBox huoltokuvalista_cb)
@@ -187,9 +195,6 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             lukija.Close();
             yhteys.Close();
         }
-
-
-   
 
         
         private void TuoKuvaButton_Click(object sender, RoutedEventArgs e)
@@ -216,7 +221,16 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             SqlConnection yhteys = new SqlConnection(polku);
             yhteys.Open();
 
-            string id = huoltokuvalista_cb.SelectedValue.ToString();
+            /*
+            string rek = rekisterinumero_t.Text;
+            string pvm = paivamaara_t.Text;
+
+            string huolto_ID = "SELECT huolto_id from huollot where rekisteri_nro = '"+rek+"' and paivamaara = '"+pvm+"'";*/
+
+
+
+
+           string id = huoltokuvalista_cb.SelectedValue.ToString();
 
             string kysely = "INSERT INTO huoltokuvat (huolto_id, kuva_nimi, kuva) VALUES ('" + id + "','" + kuvanimi.Text + "','"+ kuvaPolku.Text + "');";
             SqlCommand komento = new SqlCommand(kysely, yhteys);
@@ -225,7 +239,18 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
             PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
             PaivitaComboBox(huoltokuvalista_cb);
+
+            kuvanimi.Text = "";
+            kuvaPolku.Text = "";
         }
+
+        
+
+
+
+
+
+
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
@@ -263,23 +288,6 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
-        /*
-        private void haekaikkihuoltotiedot(object sender, RoutedEventArgs e)
-        {
-            SqlConnection yhteys = new SqlConnection(polku);
-            yhteys.Open();
-
-            string id = autokohtainenlista_cb.SelectedValue.ToString();
-
-            string kysely = "SELECT autot.rekisteri_nro, huollot.huoltotyyppi, huollot.kilometrit, huollot.paivamaara, huoltokuvat.kuva_nimi FROM huollot JOIN huoltokuvat ON huollot.huolto_id = huoltokuvat.huolto_id JOIN autot ON huollot.rekisteri_nro = autot.rekisteri_nro WHERE autot.rekisteri_nro = '"+id+"';";
-            
-            SqlCommand komento = new SqlCommand(kysely, yhteys);
-            komento.ExecuteNonQuery();
-            yhteys.Close();
-
-            PaivitaDataGrid("SELECT * FROM auton_huoltohistoria", "auton_huoltohistoria", autokohtainen_lista);
-            PaivitaComboBox(autokohtainenlista_cb);
-        }*/
 
         private void haekaikkihuoltotiedot(object sender, RoutedEventArgs e)
         {
@@ -338,6 +346,10 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaDataGrid("SELECT * FROM omistaja", "omistaja", omistajalista);
             PaivitaComboBox(omistajalista_cb);
             PaivitaComboBox(omistajalistahaku_cb);
+
+            Nimi.Text = "";
+            Puh_numero.Text = "";
+            Osoite.Text = "";
         }
 
 
@@ -359,6 +371,27 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
+        private void poistoomistajanhaku(object sender, RoutedEventArgs e)
+        {
+            SqlConnection yhteys = new SqlConnection(polku);
+            yhteys.Open();
+
+            string id = Nimipoisto.Text;
+            string id2 = Puhelinpoisto.Text;
+
+            PaivitaDataGrid("Delete from omistaja where nimi='"+id+"' and puhelinnumero='"+id2+"'", "omistaja", omistajalista);
+            MessageBox.Show("Omistaja " + id + " poistettu.");
+
+            Nimipoisto.Text = "";
+            Puhelinpoisto.Text = "";
+            Nimi.Text = "";        
+            Puh_numero.Text = "";  
+            Osoite.Text = "";
+        }
+
+
+
+
         private void Button_Click_3(object sender, RoutedEventArgs e)
             {
 
@@ -377,6 +410,8 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             }
 
        
+
+
 
 
 
