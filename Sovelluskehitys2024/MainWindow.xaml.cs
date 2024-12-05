@@ -33,7 +33,7 @@ namespace Sovelluskehitys2024
 
             try
             {
-                
+                   
                 PaivitaDataGrid("SELECT * FROM autot", "autot", autolista);
                 PaivitaComboBox(autolista_cb);
 
@@ -41,7 +41,7 @@ namespace Sovelluskehitys2024
                 PaivitaComboBox(huoltolista_cb);
 
                 PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
-                PaivitaComboBoxKuva(huoltokuvalista_cb);
+                
 
                 PaivitaComboBoxKaikkihuollot(autokohtainenlista_cb);
 
@@ -49,14 +49,6 @@ namespace Sovelluskehitys2024
 
                 PaivitaComboBox(omistajalistahaku_cb);
 
-
-                /*
-                PaivitaDataGrid("SELECT * FROM asiakkaat", "asiakkaat", asiakaslista);
-                PaivitaDataGrid("SELECT ti.id as id, a.nimi as asiakas, tu.nimi as tuote FROM tilaukset ti, asiakkaat a, tuotteet tu WHERE a.id=ti.asiakas_id AND tu.id=ti.tuote_id AND ti.toimitettu='0'", "tilaukset", tilauslista);
-                PaivitaDataGrid("SELECT ti.id as id, a.nimi as asiakas, tu.nimi as tuote FROM tilaukset ti, asiakkaat a, tuotteet tu WHERE a.id=ti.asiakas_id AND tu.id=ti.tuote_id AND ti.toimitettu='1'", "tilaukset", toimitetutlista);
-                PaivitaComboBox(tuotelista_cb);
-                PaivitaAsiakasComboBox();
-                */
             }
             catch
             {
@@ -83,6 +75,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
    yhteys.Close();
 }
 
+        // Tässä lisätään uusi auto datagridiin merkin, mallin ja rekisterinumeron perusteella. 
         private void autonlisäys(object sender, RoutedEventArgs e)
         {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -96,16 +89,18 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaDataGrid("SELECT * FROM autot", "autot", autolista);
             PaivitaComboBox(autolista_cb);
             PaivitaComboBox(huoltolista_cb);
-            PaivitaComboBoxKuva(huoltokuvalista_cb);
             PaivitaComboBox(autokohtainenlista_cb);
             PaivitaComboBox(omistajalista_cb);
 
+            // Tämä tyhjentää kentät niiden tietojen lähettämisen jälkeen.
             autonmerkki.Text = "";
             autonmalli.Text = "";
             autonrekno.Text = "";
 
         }
 
+
+        // Päivittää comboboxin.
         private void PaivitaComboBox(ComboBox autolista_cb)
         {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -127,7 +122,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
-
+        // Mahdollistaa auton poistamisen järjestelmästä rekisterinumeron avulla.
         private void autonpoisto(object sender, RoutedEventArgs e)
             {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -143,7 +138,6 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaDataGrid("SELECT * FROM autot", "autot", autolista);
             PaivitaComboBox(autolista_cb);
             PaivitaDataGrid("SELECT * FROM huollot", "huollot", huoltolista);
-            PaivitaComboBoxKuva(huoltokuvalista_cb);
             PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
             PaivitaComboBox(autokohtainenlista_cb);
             PaivitaComboBox(omistajalista_cb);
@@ -151,7 +145,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
         
-
+        // Voidaan lisätä huoltotapahtumua huoltotyyppi, kilometrit, huollon päivämäärä ja auton rekisterinumero. 
         private void huollonlisäys(object sender, RoutedEventArgs e)
         {
 
@@ -167,14 +161,16 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
             PaivitaDataGrid("SELECT * FROM huollot", "huollot", huoltolista);
             PaivitaComboBox(huoltolista_cb);
-            PaivitaComboBoxKuva(huoltokuvalista_cb);
             PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
 
+            // Tämä tyhjentää kentät niiden tietojen lähettämisen jälkeen.
             huoltotyyppi.Text = "";
             kilometrit.Text = "";
             paivamaara.Text = "";
         }
 
+
+        /*
         private void PaivitaComboBoxKuva(ComboBox huoltokuvalista_cb)
         {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -194,9 +190,10 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
             lukija.Close();
             yhteys.Close();
-        }
+        }*/
 
         
+        // Mahdollistaa kuvan tuomisen tietokoneelta.
         private void TuoKuvaButton_Click(object sender, RoutedEventArgs e)
         {
             // Luo OpenFileDialog-ikkuna
@@ -215,55 +212,56 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
-        
+        // Lisätään huoltokuitti kuva, kun tiedetään auton rekisterinumero ja huoltotapahtuman päivämäärä.
         private void lisaahuoltokuva(object sender, RoutedEventArgs e)
         {
             SqlConnection yhteys = new SqlConnection(polku);
             yhteys.Open();
 
-            /*
+
+            int huolto_ID = 0;
             string rek = rekisterinumero_t.Text;
             string pvm = paivamaara_t.Text;
 
-            string huolto_ID = "SELECT huolto_id from huollot where rekisteri_nro = '"+rek+"' and paivamaara = '"+pvm+"'";*/
+            string huolto_ID_kysely = "SELECT huolto_id from huollot where rekisteri_nro = '"+rek+"' and paivamaara = '"+pvm+"'";
+            SqlCommand komento = new SqlCommand(huolto_ID_kysely, yhteys);
+            SqlDataReader lukija = komento.ExecuteReader();
+
+            while (lukija.Read())
+            {
+                huolto_ID = lukija.GetInt32(0);
+            }
+            lukija.Close();
 
 
 
+            /*string id = huoltokuvalista_cb.SelectedValue.ToString();*/
 
-           string id = huoltokuvalista_cb.SelectedValue.ToString();
-
-            string kysely = "INSERT INTO huoltokuvat (huolto_id, kuva_nimi, kuva) VALUES ('" + id + "','" + kuvanimi.Text + "','"+ kuvaPolku.Text + "');";
-            SqlCommand komento = new SqlCommand(kysely, yhteys);
+            string kysely = "INSERT INTO huoltokuvat (huolto_id, kuva_nimi, kuva) VALUES ('" + huolto_ID + "','" + kuvanimi.Text + "','"+ kuvaPolku.Text + "');";
+            komento = new SqlCommand(kysely, yhteys);
             komento.ExecuteNonQuery();
             yhteys.Close();
 
             PaivitaDataGrid("SELECT * FROM huoltokuvat", "huoltokuvat", huoltokuvalista);
-            PaivitaComboBox(huoltokuvalista_cb);
 
+            // Tämä tyhjentää kentät niiden tietojen lähettämisen jälkeen.
             kuvanimi.Text = "";
             kuvaPolku.Text = "";
+            rekisterinumero_t.Text = "";
+            paivamaara_t.Text = "";
         }
 
-        
-
-
-
-
-
-
+ 
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            // Open the image using the default viewer for the image file type
+            
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
-                FileName = e.Uri.AbsoluteUri,  // the image path
-                UseShellExecute = true  // Ensures that the image is opened with the default associated application
+                FileName = e.Uri.AbsoluteUri,  
+                UseShellExecute = true  
             });
         }
-
-
-
 
 
         
@@ -347,6 +345,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaComboBox(omistajalista_cb);
             PaivitaComboBox(omistajalistahaku_cb);
 
+            // Tämä tyhjentää kentät niiden tietojen lähettämisen jälkeen.
             Nimi.Text = "";
             Puh_numero.Text = "";
             Osoite.Text = "";
@@ -361,10 +360,6 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
             string id = omistajalistahaku_cb.SelectedValue.ToString();
 
-            /*string kysely = "INSERT INTO omistaja (rekisteri_nro, nimi, puhelinnumero, osoite) VALUES ('" + id + "','" + Nimi.Text + "','" + Puh_numero.Text + "','" + Osoite.Text + "');";
-            SqlCommand komento = new SqlCommand(kysely, yhteys);
-            komento.ExecuteNonQuery();
-            yhteys.Close();*/
 
             PaivitaDataGrid("SELECT nimi, puhelinnumero, osoite from omistaja where rekisteri_nro='"+id+"' ", "omistaja", omistajalista);
             
@@ -382,6 +377,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaDataGrid("Delete from omistaja where nimi='"+id+"' and puhelinnumero='"+id2+"'", "omistaja", omistajalista);
             MessageBox.Show("Omistaja " + id + " poistettu.");
 
+            // Tämä tyhjentää kentät niiden tietojen lähettämisen jälkeen.
             Nimipoisto.Text = "";
             Puhelinpoisto.Text = "";
             Nimi.Text = "";        
@@ -392,12 +388,14 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
 
 
 
+
+
+        /*
+
         private void Button_Click_3(object sender, RoutedEventArgs e)
             {
 
             }
-
-
 
             private void Button_Click_4(object sender, RoutedEventArgs e)
             {
@@ -407,193 +405,9 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             private void tilauslista_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
 
-            }
+            }*/
 
        
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-private void PaivitaComboBox(ComboBox kombo1, ComboBox kombo2)
-{
-   //tuotelista_cb.Items.Clear();
-
-   SqlConnection yhteys = new SqlConnection(polku);
-   yhteys.Open();
-
-   SqlCommand komento = new SqlCommand("SELECT * FROM tuotteet", yhteys);
-   SqlDataReader lukija = komento.ExecuteReader();
-
-   DataTable taulu = new DataTable();
-   taulu.Columns.Add("ID",  typeof(string));
-   taulu.Columns.Add("NIMI", typeof(string));
-   */
-        /* tehdään sidokset että comboboxissa näytetää datataulua*/
-        /*
-        kombo1.ItemsSource = taulu.DefaultView;
-        kombo1.DisplayMemberPath = "NIMI";
-        kombo1.SelectedValuePath = "ID";
-
-        kombo2.ItemsSource = taulu.DefaultView;
-        kombo2.DisplayMemberPath = "NIMI";
-        kombo2.SelectedValuePath = "ID";
-
-        while (lukija.Read()) // käsitellään kyselytulos rivi riviltä
-        {
-            int id = lukija.GetInt32(0); 
-            string nimi = lukija.GetString(1);
-            taulu.Rows.Add(id, nimi); // lisätään datatauluun rivi tietoineen
-            //tuotelista_cb.Items.Add(lukija.GetString(1));
-        }
-        lukija.Close();
-
-        yhteys.Close();
-    }
-
-
-    private void PaivitaAsiakasComboBox()
-    {
-        //tuotelista_cb.Items.Clear();
-
-        SqlConnection yhteys = new SqlConnection(polku);
-        yhteys.Open();
-
-        SqlCommand komento = new SqlCommand("SELECT * FROM asiakkaat", yhteys);
-        SqlDataReader lukija = komento.ExecuteReader();
-
-        DataTable taulu = new DataTable();
-        taulu.Columns.Add("ID", typeof(string));
-        taulu.Columns.Add("NIMI", typeof(string));
-
-
-        /* tehdään sidokset että comboboxissa näytetää datataulua*/
-        /*
-        asiakaslista_cb.ItemsSource = taulu.DefaultView;
-        asiakaslista_cb.DisplayMemberPath = "NIMI";
-        asiakaslista_cb.SelectedValuePath = "ID";
-
-        while (lukija.Read()) // käsitellään kyselytulos rivi riviltä
-        {
-            int id = lukija.GetInt32(0);
-            string nimi = lukija.GetString(1);
-            taulu.Rows.Add(id, nimi); // lisätään datatauluun rivi tietoineen
-            //tuotelista_cb.Items.Add(lukija.GetString(1));
-        }
-        lukija.Close();
-
-        yhteys.Close();
-
-    }
-
-
-    /*
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        PaivitaDataGrid("SELECT * FROM tuotteet", "tuotteet", tuotelista);
-        PaivitaComboBox(tuotelista_cb, tuotelista_cb_2);
-
-    }
-
-    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
-    }
-
-    private void Button_Click_1(object sender, RoutedEventArgs e)
-    {
-        SqlConnection yhteys = new SqlConnection(polku);
-        yhteys.Open();
-
-        string kysely = "INSERT INTO tuotteet (nimi, hinta) VALUES ('" + tuotenimi.Text + "'," + tuotehinta.Text + ");";
-        SqlCommand komento = new SqlCommand(kysely, yhteys);
-        komento.ExecuteNonQuery();
-
-        yhteys.Close();
-
-        PaivitaDataGrid("SELECT * FROM tuotteet", "tuotteet", tuotelista);
-        PaivitaComboBox(tuotelista_cb, tuotelista_cb_2);
-    }
-    */
-        /*
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            SqlConnection yhteys = new SqlConnection(polku);
-            yhteys.Open();
-
-            string id = tuotelista_cb.SelectedValue.ToString();
-            string kysely = "DELETE FROM tuotteet WHERE id='" + id + "';";
-            SqlCommand komento = new SqlCommand(kysely, yhteys);
-            komento.ExecuteNonQuery();
-            yhteys.Close();
-
-            PaivitaDataGrid("SELECT * FROM tuotteet", "tuotteet", tuotelista);
-            PaivitaComboBox(tuotelista_cb, tuotelista_cb_2);
-        }
-        */
-        /*
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            SqlConnection yhteys = new SqlConnection(polku);
-            yhteys.Open();
-
-            string kysely = "INSERT INTO asiakkaat (nimi, osoite, puhelin) VALUES ('" + asiakasnimi.Text + "','" + asiakasosoite.Text + "','" + asiakaspuhelin.Text + "');";
-            SqlCommand komento = new SqlCommand(kysely, yhteys);
-            komento.ExecuteNonQuery();
-
-            yhteys.Close();
-
-            PaivitaDataGrid("SELECT * FROM asiakkaat", "asiakkaat", asiakaslista);
-            PaivitaAsiakasComboBox();
-        }
-        */
-        /*
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            SqlConnection yhteys = new SqlConnection(polku);
-            yhteys.Open();
-
-            string asiakasID = asiakaslista_cb.SelectedValue.ToString();
-            string tuoteID = tuotelista_cb_2.SelectedValue.ToString();
-
-            string sql = "INSERT INTO tilaukset (asiakas_id, tuote_id) VALUES ('" + asiakasID + "','" + tuoteID + "')";
-
-            SqlCommand komento = new SqlCommand(sql, yhteys);
-            komento.ExecuteNonQuery();
-
-            yhteys.Close();
-
-            PaivitaDataGrid("SELECT ti.id as id, a.nimi as asiakas, tu.nimi as tuote FROM tilaukset ti, asiakkaat a, tuotteet tu WHERE a.id=ti.asiakas_id AND tu.id=ti.tuote_id AND ti.toimitettu='0'", "tilaukset", tilauslista);
-        }
-        */
-        /*
-        private void toimita_tilaus_Click(object sender, RoutedEventArgs e)
-        {
-            DataRowView rivinakyma = (DataRowView)((Button)e.Source).DataContext;
-            String tilaus_id = rivinakyma[0].ToString();
-
-            SqlConnection yhteys = new SqlConnection(polku);
-            yhteys.Open();
-
-            string sql = "UPDATE tilaukset SET toimitettu=1 WHERE id='" + tilaus_id + "';";
-
-            SqlCommand komento = new SqlCommand(sql, yhteys);
-            komento.ExecuteNonQuery();
-
-            yhteys.Close();
-
-            PaivitaDataGrid("SELECT ti.id as id, a.nimi as asiakas, tu.nimi as tuote FROM tilaukset ti, asiakkaat a, tuotteet tu WHERE a.id=ti.asiakas_id AND tu.id=ti.tuote_id AND ti.toimitettu='0'", "tilaukset", tilauslista);
-            PaivitaDataGrid("SELECT ti.id as id, a.nimi as asiakas, tu.nimi as tuote FROM tilaukset ti, asiakkaat a, tuotteet tu WHERE a.id=ti.asiakas_id AND tu.id=ti.tuote_id AND ti.toimitettu='1'", "tilaukset", toimitetutlista);
-        }*/
 
     }
     }
