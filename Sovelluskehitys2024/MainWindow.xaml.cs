@@ -145,7 +145,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
         
-        // Voidaan lisätä huoltotapahtumua huoltotyyppi, kilometrit, huollon päivämäärä ja auton rekisterinumero. 
+        // Voidaan lisätä huoltotapahtuma huoltotyyppi, kilometrit, huollon päivämäärä ja auton rekisterinumero. 
         private void huollonlisäys(object sender, RoutedEventArgs e)
         {
 
