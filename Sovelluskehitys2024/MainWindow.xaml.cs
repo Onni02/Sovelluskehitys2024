@@ -234,9 +234,6 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             lukija.Close();
 
 
-
-            /*string id = huoltokuvalista_cb.SelectedValue.ToString();*/
-
             string kysely = "INSERT INTO huoltokuvat (huolto_id, kuva_nimi, kuva) VALUES ('" + huolto_ID + "','" + kuvanimi.Text + "','"+ kuvaPolku.Text + "');";
             komento = new SqlCommand(kysely, yhteys);
             komento.ExecuteNonQuery();
@@ -264,7 +261,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
-        
+        // Päivittää comboboxin.
         private void PaivitaComboBoxKaikkihuollot(ComboBox autokohtainenlista_cb)
         {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -286,7 +283,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
-
+        // Tämä mahdollistaa, että rekisterinumerolla pystyy hakemaan kaikki autoon merkityt huoltotapahtumat.
         private void haekaikkihuoltotiedot(object sender, RoutedEventArgs e)
         {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -328,7 +325,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
-
+        //Mahdollistaa omistajan lisäämisen autolle. Lisätään nimi, puhelinnumero ja osoite.
         private void omistajanlisäys(object sender, RoutedEventArgs e)
         {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -352,7 +349,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
-        
+        // Voi hakea omistajan auton rekisterinumeron perusteella.
         private void omistajanhaku(object sender, RoutedEventArgs e)
         {
             SqlConnection yhteys = new SqlConnection(polku);
@@ -366,6 +363,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
         }
 
 
+        // Voit poistaa omistajan nimen ja puhelinnumeron perusteella. 
         private void poistoomistajanhaku(object sender, RoutedEventArgs e)
         {
             SqlConnection yhteys = new SqlConnection(polku);
