@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Sovelluskehitys2024"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Tilaukset" MinHeight="650" MinWidth="1200">
+        Title="Auton huoltotiedot" MinHeight="650" MinWidth="1200">
     <Grid>
         <Menu DockPanel.Dock ="Top">
             <MenuItem Header="_Tiedosto">
@@ -39,6 +39,7 @@
 
                     <DataGrid x:Name="autolista" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="370,27,7,121" RenderTransformOrigin="0.5,0.5"/>
 
+                    <Label Content="Poistettava auto" HorizontalAlignment="Left" Margin="50,250,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.581,0.368"/>
 
                     <ComboBox x:Name="autolista_cb" HorizontalAlignment="Left" Margin="200,250,0,0" VerticalAlignment="Top" Width="152" Height="22"/>
                     <Button Content="Poista auto" HorizontalAlignment="Left" Margin="200,300,0,0" VerticalAlignment="Top" Width="152" Height="22" Click="autonpoisto"/>

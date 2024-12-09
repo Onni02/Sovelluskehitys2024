@@ -142,6 +142,8 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
             PaivitaComboBox(autokohtainenlista_cb);
             PaivitaComboBox(omistajalista_cb);
             PaivitaDataGrid("SELECT * FROM omistaja", "omistaja", omistajalista);
+            PaivitaComboBox(omistajalistahaku_cb);
+            PaivitaComboBox(huoltolista_cb);
         }
 
         

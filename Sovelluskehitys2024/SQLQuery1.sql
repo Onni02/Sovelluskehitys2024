@@ -33,22 +33,4 @@ CREATE TABLE omistaja (
 
 
 
-/*
-select huolto_id from huollot where rekisteri_nro='SNN-990' and paivamaara='2.12.2024'
-
-SELECT 
-    autot.rekisteri_nro,  
-    huollot.huoltotyyppi, 
-    huollot.kilometrit, 
-    huollot.paivamaara, 
-    huoltokuvat.kuva_nimi
-FROM huollot
-JOIN huoltokuvat ON huollot.huolto_id = huoltokuvat.huolto_id
-JOIN autot ON huollot.rekisteri_nro = autot.rekisteri_nro
-WHERE autot.rekisteri_nro = 'SNN-990';  
-*/
-
-
-
-
 
