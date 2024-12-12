@@ -75,7 +75,7 @@ private void PaivitaDataGrid(string kysely, string taulu, DataGrid grid)
    yhteys.Close();
 }
 
-        // Tässä lisätään uusi auto datagridiin merkin, mallin ja rekisterinumeron perusteella. 
+        // Tässä lisätään uusi auto datagridiin merkin, mallin ja rekisterinumeron  perusteella. 
         private void autonlisäys(object sender, RoutedEventArgs e)
         {
             SqlConnection yhteys = new SqlConnection(polku);
